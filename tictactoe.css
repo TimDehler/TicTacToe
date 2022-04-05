@@ -1,0 +1,52 @@
+html,
+body {
+  background: black;
+}
+
+.head {
+  background: burlywood;
+  padding: 20px;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.body {
+  background: black;
+  display: grid;
+  grid-template-rows: 800px 800px;
+  grid-template-columns: 50% 50%;
+}
+
+.ruleside {
+  background: burlywood;
+  padding: 20px;
+  border-color: black;
+  margin: 20px;
+}
+
+.gameside {
+  background: burlywood;
+  padding: 20px;
+  margin: 20px;
+}
+
+.gameside > .game {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  height: 150px;
+  width: 150px;
+  font-size: 200%;
+}
+
+.game {
+  background: black;
+  width: 450px;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
