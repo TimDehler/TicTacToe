@@ -1,19 +1,39 @@
-let player = Math.floor(Math.random() * (2 - 1 + 1) + 1);
-//console.log(player);
-
+let statusBar = null;
+let choose_game_mode = null;
+let gamemode = null;
+let player = 1;
+let singlePlayer = false;
 let roundCounter = 0;
-//console.log(roundCounter);
+let gameModeIsGiven = false;
+let gameStatus = false;
+let noOtherTurn = true;
+myButtons = [];
 
-function winningConditions() {
-  if (roundCounter === 9) {
-    console.log("unentschieden");
-    return;
-  }
-  if (checkIfPlayerWon(1) === true) {
-    console.log(`Spieler 1 hat gewonnen`);
-  } else if (checkIfPlayerWon(2) === true) {
-    console.log(`Spieler 2 hat gewonnen`);
-  }
+giveGameMode();
+
+function load() {
+  statusBar = document.getElementById("statusBar");
+  choose_game_mode = document.getElementById("choose_game_mode");
+  let myButtonList = document.querySelectorAll(".game > button");
+  myButtons = Array.from(myButtonList);
+}
+
+function giveGameMode() {
+  load();
+  statusBar.innerHTML = "Choose a game mode";
+  document
+    .getElementById("singleplayer")
+    .addEventListener("click", function () {
+      statusBar.innerHTML = "You chose Singleplayer";
+      singlePlayer = true;
+      gameModeIsGiven = true;
+      startGame();
+    });
+  document.getElementById("multiplayer").addEventListener("click", function () {
+    statusBar.innerHTML = "You chose Multiplayer";
+    gameModeIsGiven = true;
+    startGame();
+  });
 }
 
 function checkIfPlayerWon(player) {
@@ -65,27 +85,101 @@ function checkIfPlayerWon(player) {
     my_button_9.value == player
   ) {
     return true;
+  } else {
+    return false;
   }
 }
 
-document.querySelectorAll(".game > button").forEach((button) => {
-  button.addEventListener("click", function () {
-    if (player == 1) {
-      this.innerHTML = "x";
-      this.value = 1;
-      player = 2;
-      roundCounter = roundCounter + 1;
-      //console.log(roundCounter);
-      winningConditions();
-    } else if (player == 2) {
-      this.innerHTML = "o";
-      this.value = 2;
-      player = 1;
-      roundCounter = roundCounter + 1;
-      //console.log(roundCounter);
-      winningConditions();
-    } else {
-      console.log(Error);
+function winningConditions() {
+  if (
+    roundCounter === 9 &&
+    checkIfPlayerWon(1) === false &&
+    checkIfPlayerWon(2) === false
+  ) {
+    console.log("untentschieden");
+    statusBar.innerHTML = "Unentschieden";
+    console.log("Unentschieden");
+    gameStatus = true;
+    return;
+  }
+  if (checkIfPlayerWon(1) === true) {
+    statusBar.innerHTML = "Spieler 1 hat gewonnen!";
+    console.log("Spieler 1 hat gewonnen!");
+    gameStatus = true;
+    return;
+  } else if (checkIfPlayerWon(2) === true) {
+    statusBar.innerHTML = "Spieler 2 hat gewonnen!";
+    console.log("Spieler 2 hat gewonnen!");
+    gameStatus = true;
+    return;
+  }
+}
+
+function computerTurn() {
+  if (roundCounter === 1) {
+    if (myButtons[4].value === "null") {
+      myButtons[4].click();
+    } else if (myButtons[4].value != "null") {
+      if (myButtons[0].value === "null") {
+        myButtons[0].click();
+      }
     }
+  } else if (roundCounter > 2) {
+    for (let i = 0; i < myButtons.length; i++) {
+      if (myButtons[i].value === "null") {
+        myButtons[i].value = "2";
+        if (checkIfPlayerWon(2) === true) {
+          myButtons[i].value = "null";
+          myButtons[i].click();
+          return;
+        } else {
+          myButtons[i].value = "null";
+        }
+      }
+      if (myButtons[i].value === "null") {
+        myButtons[i].value = "1";
+        if (checkIfPlayerWon(1) === true) {
+          myButtons[i].value = "null";
+          myButtons[i].click();
+          return;
+        } else {
+          myButtons[i].value = "null";
+        }
+      }
+    }
+    for (let g = 0; g < myButtons.length; g++) {
+      if (myButtons[g].value === "null") {
+        myButtons[g].click();
+        return;
+      }
+    }
+  }
+}
+
+function startGame() {
+  document.querySelectorAll(".game > button").forEach((button) => {
+    button.addEventListener("click", function () {
+      if (player === 1 && this.value === "null") {
+        this.innerHTML = "x";
+        this.value = 1;
+        player = 2;
+        roundCounter = roundCounter + 1;
+        winningConditions();
+        if (gameStatus === false && singlePlayer === true) {
+          computerTurn();
+        }
+      } else if (player === 2 && this.value === "null") {
+        if (noOtherTurn === false) {
+          noOtherTurn = true;
+        }
+        this.innerHTML = "o";
+        this.value = 2;
+        player = 1;
+        roundCounter = roundCounter + 1;
+        winningConditions();
+      } else {
+        console.error("Error");
+      }
+    });
   });
-});
+}

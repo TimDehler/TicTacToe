@@ -1,52 +1,41 @@
 html,
 body {
-  background: black;
+  font-family: sans-serif;
+  margin: 0 auto;
+  max-width: 50em;
+  line-height: 1.5;
+  padding: 4em 1em;
+  margin-top: 1em;
+  padding-top: 1em;
+  color: #555;
 }
 
-.head {
-  background: burlywood;
-  padding: 20px;
-  margin: 20px;
+.choose_game_mode > button {
+  color: white;
   display: flex;
   justify-content: center;
+  height: 80px;
+  font-size: 300%;
+  color: black;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
-.body {
-  background: black;
-  display: grid;
-  grid-template-rows: 800px 800px;
-  grid-template-columns: 50% 50%;
-}
-
-.ruleside {
-  background: burlywood;
-  padding: 20px;
-  border-color: black;
-  margin: 20px;
-}
-
-.gameside {
-  background: burlywood;
-  padding: 20px;
-  margin: 20px;
-}
-
-.gameside > .game {
-  display: flex;
-  justify-content: center;
-}
-
-button {
+.game > button {
   height: 150px;
   width: 150px;
-  font-size: 200%;
+  font-size: 600%;
 }
 
 .game {
-  background: black;
   width: 450px;
   height: 450px;
   display: flex;
-  justify-content: center;
+  text-align: center;
   flex-wrap: wrap;
 }
