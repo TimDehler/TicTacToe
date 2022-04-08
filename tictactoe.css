@@ -1,41 +1,47 @@
-html,
 body {
   font-family: sans-serif;
   margin: 0 auto;
-  max-width: 50em;
-  line-height: 1.5;
-  padding: 4em 1em;
-  margin-top: 1em;
-  padding-top: 1em;
-  color: #555;
+  max-width: 960px;
+  background-color: #555;
+  box-sizing: border-box;
+}
+
+.choose_game_mode {
+  display: flex;
+  background-color: aliceblue;
 }
 
 .choose_game_mode > button {
-  color: white;
-  display: flex;
-  justify-content: center;
-  height: 80px;
-  font-size: 300%;
-  color: black;
-  display: -webkit-flex;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+  flex-grow: 1;
 }
 
+.statusBar {
+  width: 60rem;
+  height: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 300%;
+}
+
+/*
+No changes in .game > button or .game to avoid bugs in game feature
+*/
+
 .game > button {
-  height: 150px;
-  width: 150px;
+  height: 20rem;
+  width: 20rem;
+  background-color: cadetblue;
   font-size: 600%;
 }
 
 .game {
-  width: 450px;
-  height: 450px;
+  width: 60rem;
+  height: 60rem;
+  background-color: black;
   display: flex;
   text-align: center;
+  align-items: center;
   flex-wrap: wrap;
 }
