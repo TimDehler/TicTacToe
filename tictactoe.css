@@ -13,11 +13,13 @@ body {
 
 .choose_game_mode > button {
   flex-grow: 1;
+  font-size: 250%;
+  padding: 5%;
 }
 
 .statusBar {
-  width: 60rem;
-  height: 10em;
+  width: 100%;
+  height: 4em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,11 +39,18 @@ No changes in .game > button or .game to avoid bugs in game feature
 }
 
 .game {
-  width: 60rem;
-  height: 60rem;
+  width: 100%;
+  height: 100%;
   background-color: black;
   display: flex;
   text-align: center;
   align-items: center;
   flex-wrap: wrap;
+}
+@media screen and (max-width: 600px) {
+  .game,
+  .statusBar,
+  .choose_game_mode {
+    width: 100%;
+  }
 }

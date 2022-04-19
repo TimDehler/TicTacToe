@@ -1,5 +1,5 @@
 let statusBar = null;
-let choose_game_mode = null;
+let menu = null;
 let gamemode = null;
 let player = 1;
 let singlePlayer = false;
@@ -13,9 +13,11 @@ giveGameMode();
 
 function load() {
   statusBar = document.getElementById("statusBar");
-  choose_game_mode = document.getElementById("choose_game_mode");
-  let myButtonList = document.querySelectorAll(".game > button");
+  menu = document.getElementById("menu");
+  let myButtonList = document.querySelectorAll(".game_buttons > button");
+  console.log(myButtonList);
   myButtons = Array.from(myButtonList);
+  console.log(myButtons);
   document.getElementById("reset").addEventListener("click", function () {
     location.reload();
   });
@@ -185,7 +187,7 @@ function computerTurn() {
 }
 
 function startGame() {
-  document.querySelectorAll(".game > button").forEach((button) => {
+  document.querySelectorAll(".game_buttons > button").forEach((button) => {
     button.addEventListener("click", function () {
       if (player === 1 && this.value === "null") {
         console.log("player_turn");
