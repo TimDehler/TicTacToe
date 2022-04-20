@@ -1,3 +1,9 @@
+/*
+  Fix problem with computer playing along after game has ended
+  Patch multiplyer emoji choosing
+  Patch single/multiplayer so you can go on playing after a round without reset
+*/
+
 let statusBar = null;
 let choose_game_mode = null;
 
@@ -49,61 +55,69 @@ function giveGameMode() {
     .addEventListener("click", function () {
       statusBar.innerHTML = "You chose Singleplayer";
       singlePlayer = true;
-      pickEmoji();
+      pickEmojiSingleplayer();
     });
   document.getElementById("multiplayer").addEventListener("click", function () {
     statusBar.innerHTML = "You chose Multiplayer";
-    pickEmoji();
+    player_one_emoji = "🚀";
+    player_two_emoji = "👾";
+    startGame();
   });
 }
 
-// Function to pick your Emoji --> depending on game mode
-function pickEmoji() {
-  console.log("test4");
+// Function to pick your Emoji on Singleplayer--> depending on game mode
+function pickEmojiSingleplayer() {
   console.log("Player 1 pick your Emoji");
+  statusBar.innerHTML = "Pick your Emoji";
   document.querySelectorAll(".upper_right > button").forEach((button) => {
     button.addEventListener("click", function () {
-      if (singlePlayer === true) {
-        player_two_emoji = "👾";
-        if (
-          this === document.getElementById("unicorn") &&
-          this.value === "null"
-        ) {
-          player_one_emoji = "🦄";
-          this.value = "1";
-        } else if (
-          this === document.getElementById("fries") &&
-          this.value === "null"
-        ) {
-          player_one_emoji = "🍟";
-          this.value = "1";
-        } else if (
-          this === document.getElementById("star") &&
-          this.value === "null"
-        ) {
-          player_one_emoji = "🌠";
-          this.value = "1";
-        } else if (
-          this === document.getElementById("ape") &&
-          this.value === "null"
-        ) {
-          player_one_emoji = "🙉";
-          this.value = "1";
-        } else if (
-          this === document.getElementById("bike") &&
-          this.value === "null"
-        ) {
-          player_one_emoji = "🚲";
-          this.value = "1";
-        }
-      } else if (multiplayer === true) {
-        console.log("Player 1 pick your Emoji");
+      player_two_emoji = "👾";
+      if (
+        this === document.getElementById("unicorn") &&
+        this.value === "null"
+      ) {
+        player_one_emoji = "🦄";
+        startGame();
+      } else if (
+        this === document.getElementById("fries") &&
+        this.value === "null"
+      ) {
+        player_one_emoji = "🍟";
+        startGame();
+      } else if (
+        this === document.getElementById("star") &&
+        this.value === "null"
+      ) {
+        player_one_emoji = "🌠";
+        startGame();
+      } else if (
+        this === document.getElementById("ape") &&
+        this.value === "null"
+      ) {
+        player_one_emoji = "🙉";
+        startGame();
+      } else if (
+        this === document.getElementById("bike") &&
+        this.value === "null"
+      ) {
+        player_one_emoji = "🚲";
+        startGame();
+      } else if (
+        this === document.getElementById("default") &&
+        this.value === "null"
+      ) {
+        player_one_emoji = "🚀";
+        startGame();
       } else {
         console.error("Error");
       }
     });
   });
-  startGame();
+}
+
+// Prototype for combining single / mult emoji choosing
+function chooseEmoji() {
+  console.log("not empty");
 }
 
 // Function with possible win situations
@@ -183,6 +197,7 @@ function winningConditions() {
   }
 }
 
+// Function for the intelligent computer opponent
 function computerTurn() {
   // First computer move on round 1
   if (roundCounter === 1) {
@@ -251,6 +266,7 @@ function computerTurn() {
 }
 
 function startGame() {
+  statusBar.innerHTML = "Make your first move";
   document.querySelectorAll(".game_buttons > button").forEach((button) => {
     button.addEventListener("click", function () {
       if (player === 1 && this.value === "null") {
