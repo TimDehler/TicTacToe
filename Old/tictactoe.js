@@ -1,12 +1,8 @@
 let statusBar = null;
 let choose_game_mode = null;
-let gamemode = null;
 let player = 1;
 let singlePlayer = false;
 let roundCounter = 0;
-let gameModeIsGiven = false;
-let gameStatus = false;
-let noOtherTurn = true;
 myButtons = [];
 
 giveGameMode();
@@ -29,12 +25,10 @@ function giveGameMode() {
     .addEventListener("click", function () {
       statusBar.innerHTML = "You chose Singleplayer";
       singlePlayer = true;
-      gameModeIsGiven = true;
       startGame();
     });
   document.getElementById("multiplayer").addEventListener("click", function () {
     statusBar.innerHTML = "You chose Multiplayer";
-    gameModeIsGiven = true;
     startGame();
   });
 }
@@ -101,52 +95,51 @@ function winningConditions() {
   ) {
     console.log("untentschieden");
     statusBar.innerHTML = "Unentschieden";
-    gameStatus = true;
     return;
   }
   if (checkIfPlayerWon(1) === true) {
     statusBar.innerHTML = "Spieler 1 hat gewonnen!";
     console.log("Spieler 1 hat gewonnen!");
-    gameStatus = true;
     return;
   } else if (checkIfPlayerWon(2) === true) {
     statusBar.innerHTML = "Spieler 2 hat gewonnen!";
-    gameStatus = true;
     return;
   }
 }
 
-function computerTurn() {
-  if (
-    (myButtons[1].value != "null" && roundCounter === 1) ||
-    (myButtons[3].value != "null" && roundCounter === 1) ||
-    (myButtons[5].value != "null" && roundCounter === 1) ||
-    myButtons[7].value != "null"
-  ) {
-    myButtons[0].click();
-    return;
-  } else if (roundCounter === 1 && myButtons[4].value != "null") {
-    console.log("Block Corner");
-    myButtons[0].click();
-    return;
-  } else if (roundCounter === 1 && myButtons[4].value === "null") {
-    console.log("Block across");
-    if (myButtons[0].value != "null") {
-      myButtons[8].click();
-      return;
-    } else if (myButtons[2].value != "null") {
-      myButtons[6].click();
-      return;
-    } else if (myButtons[6].value != "null") {
-      myButtons[2].click();
-      return;
-    } else if (myButtons[8].value != "null") {
+function computerTurnNEW() {
+  // First computer move on round 1
+  if (roundCounter === 1) {
+    // First mmove not in a corner --> block upper left corner
+    if (
+      myButtons[1].value != "null" ||
+      myButtons[3].value != "null" ||
+      myButtons[5].value != "null" ||
+      myButtons[7].value != "null" ||
+      myButtons[4].value != "null"
+    ) {
       myButtons[0].click();
-      return;
+      // First move in a corner --> block across corner
+    } else if (roundCounter === 1) {
+      console.log("Block across");
+      if (myButtons[0].value != "null") {
+        myButtons[8].click();
+        return;
+      } else if (myButtons[2].value != "null") {
+        myButtons[6].click();
+        return;
+      } else if (myButtons[6].value != "null") {
+        myButtons[2].click();
+        return;
+      } else if (myButtons[8].value != "null") {
+        myButtons[0].click();
+        return;
+      }
     }
-  } else if (roundCounter > 2) {
+  }
+  // Test if computer can win --> win
+  if (roundCounter > 2) {
     for (let i = 0; i < myButtons.length; i++) {
-      console.log("test");
       if (myButtons[i].value === "null") {
         myButtons[i].value = "2";
         if (checkIfPlayerWon(2) === true) {
@@ -158,6 +151,7 @@ function computerTurn() {
         }
       }
     }
+    // Test if player can win --> block
     for (let i = 0; i < myButtons.length; i++) {
       if (myButtons[i].value === "null") {
         myButtons[i].value = "1";
@@ -170,15 +164,11 @@ function computerTurn() {
         }
       }
     }
-    if (myButtons[4].value === "null") {
-      myButtons[4].click();
-      return;
-    } else {
-      for (let g = 0; g < myButtons.length; g++) {
-        if (myButtons[g].value === "null") {
-          myButtons[g].click();
-          return;
-        }
+    // Make a random move if no intelligent move is aviable
+    for (let i = 0; i < myButtons.length; i++) {
+      if (myButtons[i].value === "null") {
+        myButtons[i].click();
+        return;
       }
     }
   }
@@ -188,23 +178,21 @@ function startGame() {
   document.querySelectorAll(".game > button").forEach((button) => {
     button.addEventListener("click", function () {
       if (player === 1 && this.value === "null") {
-        console.log("player_turn");
-        this.innerHTML = "x";
+        console.log("The player made his turn");
+        this.innerHTML = "🚀";
         this.value = 1;
         player = 2;
         roundCounter = roundCounter + 1;
         winningConditions();
-        if (gameStatus === false && singlePlayer === true) {
-          computerTurn();
+        if (singlePlayer === true) {
+          computerTurnNEW();
         }
       } else if (player === 2 && this.value === "null") {
-        if (noOtherTurn === false) {
-          noOtherTurn = true;
-        }
-        this.innerHTML = "o";
+        this.innerHTML = "👾";
         this.value = 2;
         player = 1;
         roundCounter = roundCounter + 1;
+        console.log("The computer made his turn");
         winningConditions();
       } else {
         console.error("Error");

@@ -24,21 +24,14 @@
       .menu > button {
         background-color: rgba(20, 20, 20, 0.8);
         padding: 8px;
-        margin-top: 7px;
+        margin-top: 14px;
         width: 100%;
         font-family: Verdana;
         font-size: 200%;
         color: #fffffe;
         border: none;
         border-radius: 16px;
-        height: 60px;
-        height: 25vh;
-      }
-
-      .game > h1 {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
+        height: 24vh;
       }
 
       .game {
@@ -53,32 +46,6 @@
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        border-radius: 16px;
-        height: 75vh;
-      }
-
-      #statusBar {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-        padding: 7px;
-        font-family: Verdana;
-        font-size: 200%;
-        margin: 7px;
-      }
-
-      .right {
-        opacity: 95%;
-        background-color: rgba(20, 20, 20, 0.8);
-        float: left;
-        width: 20%;
-        padding: 15px;
-        margin-top: 14px;
-        margin-bottom: 14px;
-        text-align: center;
-        font-size: 200%;
         border-radius: 16px;
         height: 75vh;
       }
@@ -98,9 +65,54 @@
         width: 140px;
         height: 140px;
         font-size: 300%;
-        text-decoration-color: #fffffe;
         border-radius: 16px;
         margin: 2px;
+      }
+
+      #statusBar {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        padding: 7px;
+        font-family: Verdana;
+        font-size: 200%;
+        margin: 7px;
+      }
+
+      .upper_right {
+        opacity: 95%;
+        background-color: rgba(20, 20, 20, 0.8);
+        float: left;
+        width: 20%;
+        padding: 15px;
+        margin-top: 14px;
+        text-align: center;
+        font-size: 200%;
+        border-radius: 16px;
+        height: 27vh;
+      }
+
+      .upper_right > button {
+        background-color: rgba(20, 20, 20, 0.8);
+        font-size: 150%;
+        border-radius: 16px;
+        margin: 5px;
+        color: white;
+      }
+
+      .lower_right {
+        opacity: 95%;
+        background-color: rgba(20, 20, 20, 0.8);
+        float: left;
+        width: 20%;
+        padding: 15px;
+        margin-top: 14px;
+        text-align: center;
+        font-size: 200%;
+        border-radius: 16px;
+        height: 46.5vh;
       }
 
       @media only screen and (max-width: 620px) {
@@ -140,7 +152,7 @@
       </div>
 
       <div class="game">
-        <div id="statusBar">GAME</div>
+        <div id="statusBar"></div>
         <div class="game_buttons">
           <button id="my_button_1" value="null"></button>
           <button id="my_button_2" value="null"></button>
@@ -154,10 +166,15 @@
         </div>
       </div>
 
-      <div class="right">
-        <h2>Rules</h2>
-        <p>Get three x's or o's in a line to win. Also works on diagonal.</p>
+      <div class="upper_right">
+        <button id="unicorn" value="null">🦄</button>
+        <button id="fries" value="null">🍟</button>
+        <button id="star" value="null">🌠</button>
+        <button id="ape" value="null">🙉</button>
+        <button id="bike" value="null">🚲</button>
+        <button id="default" value="null">DEFAULT</button>
       </div>
+      <div class="lower_right">Irgendwann kommt hier die console hin</div>
     </div>
 
     <div
@@ -165,13 +182,14 @@
         background-color: rgba(20, 20, 20, 0.8);
         padding: 10px;
         display: flex;
+        margin-top: 14px;
         justify-content: center;
         align-items: center;
         height: 7vh;
       "
     >
-      © copyright Tim Dehler
+      © Tim Dehler
     </div>
-    <script src="tictactoe_copy.js" charset="utf-8"></script>
+    <script src="index.js" charset="utf-8"></script>
   </body>
 </html>
