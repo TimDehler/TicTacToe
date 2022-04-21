@@ -1,123 +1,135 @@
 /*
-  Fix problem with computer playing along after game has ended
-  Patch multiplyer emoji choosing
-  Patch single/multiplayer so you can go on playing after a round without reset
+  Patch multiplayer emoji choosing
+  Adjust scaling
 */
 
+// Gaim is on
+let gameState = true;
+
+// Loading HTML Sections
 let statusBar = null;
 let choose_game_mode = null;
 
 // Player one always begins
 let player = 1;
+console.log("presetting player --> 1");
 
 // Will be set on giveGameMode, needed for picking emojis
-let multiplayer = false;
-let singlePlayer = false;
+let multiPlayer = false;
+let singlePlayer = true;
+console.log("presetting gamemode --> singleplayer");
 
 // Roundcounter for computer turn and console logs
 let roundCounter = 0;
+console.log("presetting roundcounter --> 0");
 
 // My Buttons Array to give the buttons number locations
 myButtons = [];
+console.log("initializing --> myButtons Array");
 
-// Will be filled with the chosen emojis
-let player_one_emoji = null;
-let player_two_emoji = null;
+// Default player emojis
+let player_one_emoji = "🚀";
+let player_two_emoji = "👾";
+console.log("presetting player emojis --> rocket / alien");
 
 TICTACTOE();
 
 // Main starting method
 function TICTACTOE() {
-  console.log("test");
+  console.log("starting --> TICTACTOE()");
   load();
-  document.getElementById("reset").addEventListener("click", function () {
-    location.reload();
-  });
+  document.getElementById("singleplayer").style.color = "blue";
 }
 
 // Loading all neccessary Buttons and sections
 function load() {
-  console.log("test2");
+  console.log("starting --> load()");
   statusBar = document.getElementById("statusBar");
+  console.log("getting --> statusBar");
   choose_game_mode = document.getElementById("choose_game_mode");
+  console.log("getting --> choose_game_mode");
   let myButtonList = document.querySelectorAll(".game_buttons > button");
   myButtons = Array.from(myButtonList);
-  console.log(myButtons);
-  giveGameMode();
+  console.log("filling --> myButtons Array");
+  loadEventListeners();
 }
 
-// function to declare the game mode
-function giveGameMode() {
-  console.log("test3");
-  statusBar.innerHTML = "Choose a game mode";
-  document
-    .getElementById("singleplayer")
-    .addEventListener("click", function () {
-      statusBar.innerHTML = "You chose Singleplayer";
-      singlePlayer = true;
-      pickEmojiSingleplayer();
-    });
-  document.getElementById("multiplayer").addEventListener("click", function () {
-    statusBar.innerHTML = "You chose Multiplayer";
-    player_one_emoji = "🚀";
-    player_two_emoji = "👾";
-    startGame();
-  });
-}
-
-// Function to pick your Emoji on Singleplayer--> depending on game mode
-function pickEmojiSingleplayer() {
-  console.log("Player 1 pick your Emoji");
-  statusBar.innerHTML = "Pick your Emoji";
-  document.querySelectorAll(".upper_right > button").forEach((button) => {
+// Function loading all Evenlisteners for the buttons
+function loadEventListeners() {
+  console.log("starting --> loadEventListeners()");
+  // Loading event Listeners for multi and singleplayer buttons
+  console.log("loading --> menu buttons");
+  document.querySelectorAll(".menu > button").forEach((button) => {
     button.addEventListener("click", function () {
-      player_two_emoji = "👾";
-      if (
-        this === document.getElementById("unicorn") &&
-        this.value === "null"
-      ) {
-        player_one_emoji = "🦄";
-        startGame();
-      } else if (
-        this === document.getElementById("fries") &&
-        this.value === "null"
-      ) {
-        player_one_emoji = "🍟";
-        startGame();
-      } else if (
-        this === document.getElementById("star") &&
-        this.value === "null"
-      ) {
-        player_one_emoji = "🌠";
-        startGame();
-      } else if (
-        this === document.getElementById("ape") &&
-        this.value === "null"
-      ) {
-        player_one_emoji = "🙉";
-        startGame();
-      } else if (
-        this === document.getElementById("bike") &&
-        this.value === "null"
-      ) {
-        player_one_emoji = "🚲";
-        startGame();
-      } else if (
-        this === document.getElementById("default") &&
-        this.value === "null"
-      ) {
-        player_one_emoji = "🚀";
-        startGame();
-      } else {
-        console.error("Error");
+      if (this === document.getElementById("singleplayer")) {
+        singleplayer_mode();
+      } else if (this === document.getElementById("multiplayer")) {
+        multiplayer_mode();
       }
     });
   });
+  console.log("loading --> emoji buttons");
+  document.querySelectorAll(".upper_right > button").forEach((button) => {
+    button.addEventListener("click", function () {
+      if (singlePlayer === true) {
+        if (this === document.getElementById("unicorn")) {
+          player_one_emoji = "🦄";
+          console.log("change --> player one emoji --> unicorn");
+        } else if (
+          this === document.getElementById("fries") &&
+          this.value === "null"
+        ) {
+          player_one_emoji = "🍟";
+          console.log("change --> player one emoji --> fries");
+        } else if (
+          this === document.getElementById("star") &&
+          this.value === "null"
+        ) {
+          player_one_emoji = "🌠";
+          console.log("change --> player one emoji --> star");
+        } else if (this === document.getElementById("ape")) {
+          player_one_emoji = "🙉";
+          console.log("change --> player one emoji --> ape");
+        } else if (
+          this === document.getElementById("bike") &&
+          this.value === "null"
+        ) {
+          player_one_emoji = "🚲";
+          console.log("change --> player one emoji --> bike");
+        }
+      } else if (multiplayer === true) {
+      }
+    });
+  });
+  // Reset button
+  document.getElementById("reset").addEventListener("click", function () {
+    location.reload();
+  });
+  startGame();
 }
 
-// Prototype for combining single / mult emoji choosing
-function chooseEmoji() {
-  console.log("not empty");
+// Function for starting singleplayer
+function singleplayer_mode() {
+  if (singlePlayer === true) {
+    location.reload();
+  } else if (singlePlayer === false) {
+    document.getElementById("singleplayer").style.color = "blue";
+    document.getElementById("multiplayer").style.color = "white";
+    singlePlayer = true;
+    multiplayer = false;
+  }
+}
+
+// Function for starting multiplayer
+function multiplayer_mode() {
+  if (multiPlayer === true) {
+    location.reload();
+  } else if (multiPlayer === false) {
+    document.getElementById("multiplayer").style.color = "blue";
+    document.getElementById("singleplayer").style.color = "white";
+    singlePlayer = false;
+    multiPlayer = true;
+  }
 }
 
 // Function with possible win situations
@@ -182,17 +194,17 @@ function winningConditions() {
     checkIfPlayerWon(1) === false &&
     checkIfPlayerWon(2) === false
   ) {
-    console.log("Draw");
     statusBar.innerHTML = "Draw";
+    gameState = false;
     return;
   }
   if (checkIfPlayerWon(1) === true) {
     statusBar.innerHTML = "Player 1 has won!";
-    console.log("Player 1 has won!");
+    gameState = false;
     return;
   } else if (checkIfPlayerWon(2) === true) {
     statusBar.innerHTML = "Player 2 has won!";
-    console.log("Player 2 has won!");
+    gameState = false;
     return;
   }
 }
@@ -212,7 +224,6 @@ function computerTurn() {
       myButtons[0].click();
       // First move in a corner --> block across corner
     } else if (roundCounter === 1) {
-      console.log("Block across");
       if (myButtons[0].value != "null") {
         myButtons[8].click();
         return;
@@ -270,24 +281,29 @@ function startGame() {
   document.querySelectorAll(".game_buttons > button").forEach((button) => {
     button.addEventListener("click", function () {
       if (player === 1 && this.value === "null") {
-        console.log("The player made his turn");
         this.innerHTML = player_one_emoji;
         this.value = 1;
-        player = 2;
-        roundCounter = roundCounter + 1;
         winningConditions();
-        if (singlePlayer === true) {
+        if (gameState) {
+          player = 2;
+        } else {
+          player = 3;
+        }
+        roundCounter = roundCounter + 1;
+
+        if (singlePlayer === true && gameState === true) {
           computerTurn();
         }
       } else if (player === 2 && this.value === "null") {
         this.innerHTML = player_two_emoji;
         this.value = 2;
-        player = 1;
-        roundCounter = roundCounter + 1;
-        console.log("The computer made his turn");
         winningConditions();
-      } else {
-        console.error("Error");
+        if (gameState) {
+          player = 1;
+        } else {
+          player = 3;
+        }
+        roundCounter = roundCounter + 1;
       }
     });
   });
